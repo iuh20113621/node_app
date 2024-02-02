@@ -1,17 +1,17 @@
-# Bắt đầu từ image chứa Node.js phiên bản mới nhất
-FROM node:latest
+# Bắt đầu từ phiên bản mới nhất của NodeJS image
+FROM node:15.11.0-stretch
 
-# Thiết lập thư mục làm việc trong container
-WORKDIR /usr/src/app
+# Copy file package.json từ local host sang thư mục hiện tại trong ảnh
+COPY package.json ./
 
-# Copy tất cả nội dung từ thư mục hiện tại vào /usr/src/app/ trong container
-COPY . .
-
-# Chạy lệnh npm install để cài đặt các dependencies
+# Chạy lệnh npm install để cài đặt các thư viện
 RUN npm install
 
-# Expose cổng 3000 của container
-EXPOSE 3000
+# Sao chép tập tin server.js vào thư mục /usr/src/app/
+COPY server.js /usr/src/app/
+
+# Expose cổng 8080
+EXPOSE 8080
 
 # Thiết lập lệnh để chạy ứng dụng
-CMD ["node", "app.js"]
+CMD ["node", "/usr/src/app/server.js"]
